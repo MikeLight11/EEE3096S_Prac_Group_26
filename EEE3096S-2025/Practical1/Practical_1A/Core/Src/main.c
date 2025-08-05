@@ -22,7 +22,10 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdint.h>
+#include <stdlib.h>
 #include "stm32f0xx.h"
+#include "lcd_stm32f0.h"
+#include "lcd_stm32f0.c"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -54,6 +57,10 @@ int delay_mode = 0;
 
 int led_position = 0; 
 int led_direction = 1;
+
+int random_int = 0;
+int random_on_delay = 0;
+int random_off_delay = 0;
 
 /* USER CODE END PV */
 
@@ -102,6 +109,8 @@ int main(void)
   // TODO: Start timer TIM16
   HAL_TIM_Base_Start_IT(&htim16);
 
+  init_LCD(); // Initialize LCD display
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -114,7 +123,6 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
     // TODO: Check pushbuttons to change timer delay
-    static int PA0_prev_state = 0;
     PA0_state = LL_GPIO_IsInputPinSet(Button0_GPIO_Port, Button0_Pin);
 
     if (PA1_state == 0 && !LL_GPIO_IsInputPinSet(Button1_GPIO_Port, Button1_Pin)) {
@@ -359,6 +367,8 @@ void TIM16_IRQHandler(void)
 
 	// TODO: Change LED pattern
   if (PA1_state == 1) {
+    lcd_command(CLEAR);
+    lcd_putstring("Button 1 pressed");
 
     LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin);
     LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin);
@@ -381,20 +391,20 @@ void TIM16_IRQHandler(void)
       case 7: LL_GPIO_SetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
     }
     
-    // Update position for next time
     led_position += led_direction;
     
-    // Check for bouncing at the ends
     if (led_position >= 7) {
       led_position = 7;
-      led_direction = -1;  // Change direction to move left
+      led_direction = -1; // right to left
     } else if (led_position <= 0) {
       led_position = 0;
-      led_direction = 1;   // Change direction to move right
+      led_direction = 1; // left to right
     }
 
   } else if (PA2_state == 1) {
     // Button 2 pressed
+    lcd_command(CLEAR);
+    lcd_putstring("Button 2 pressed");
 
     LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
     LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin);
@@ -416,21 +426,50 @@ void TIM16_IRQHandler(void)
       case 7: LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
     }
     
-    // Update position for next time
     led_position += led_direction;
     
-    // Check for bouncing at the ends
     if (led_position >= 7) {
       led_position = 7;
-      led_direction = -1;  // Change direction to move left
+      led_direction = -1;  // right to left
     } else if (led_position <= 0) {
       led_position = 0;
-      led_direction = 1;   // Change direction to move right
+      led_direction = 1;   // left to right
     }
   } else if (PA3_state == 1) {
     // Button 3 pressed
-  }
+    lcd_command(CLEAR);
+    lcd_putstring("Button 3 pressed");
 
+    random_int = rand() % 256;
+
+    GPIOB -> ODR = random_int;
+
+    random_on_delay = rand() % 1401 + 100; // Random delay between 100ms and 1500ms
+    delay(random_on_delay*100);
+
+    while (random_int != 0) {
+      int index = rand() % 8;
+      while (!(random_int & (1 << index))) {
+        index = rand() % 8;
+      }
+
+      switch(index) {
+        case 0: LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin); break;
+        case 1: LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin); break;
+        case 2: LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin); break;
+        case 3: LL_GPIO_ResetOutputPin(LED3_GPIO_Port, LED3_Pin); break;
+        case 4: LL_GPIO_ResetOutputPin(LED4_GPIO_Port, LED4_Pin); break;
+        case 5: LL_GPIO_ResetOutputPin(LED5_GPIO_Port, LED5_Pin); break;
+        case 6: LL_GPIO_ResetOutputPin(LED6_GPIO_Port, LED6_Pin); break;
+        case 7: LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
+      }
+
+      random_int &= ~(1 << index);
+
+      random_off_delay = rand() % 101; // Random delay between 0ms and 100ms
+      delay(random_off_delay*1000);
+    }
+  }
 }
 
 
