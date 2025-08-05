@@ -45,7 +45,13 @@ TIM_HandleTypeDef htim16;
 
 /* USER CODE BEGIN PV */
 // TODO: Define input variables
-
+int PA0_state = 0;
+int PA1_state = 0;
+int PA2_state = 0;
+int PA3_state = 0;
+int delay_mode = 0; 
+int led_position = 0; 
+int led_direction = 1;
 
 /* USER CODE END PV */
 
@@ -92,8 +98,7 @@ int main(void)
   /* USER CODE BEGIN 2 */
 
   // TODO: Start timer TIM16
-
- 
+  HAL_TIM_Base_Start_IT(&htim16);
 
   /* USER CODE END 2 */
 
@@ -107,9 +112,24 @@ int main(void)
     /* USER CODE BEGIN 3 */
 
     // TODO: Check pushbuttons to change timer delay
+    PA0_state = LL_GPIO_IsInputPinSet(Button0_GPIO_Port, Button0_Pin);
 
+    if (PA0_state == 1) {
+      // Button 0 pressed
 
-    
+        HAL_TIM_Base_Stop_IT(&htim16);
+        
+        if (delay_mode == 0) {
+            htim16.Init.Period = 1000 - 1;
+            delay_mode = 1;
+        } else {
+            htim16.Init.Period = 500 - 1;
+            delay_mode = 0;
+        }
+
+        HAL_TIM_Base_Init(&htim16);
+        HAL_TIM_Base_Start_IT(&htim16);
+    }
 
   }
   /* USER CODE END 3 */
@@ -322,9 +342,49 @@ void TIM16_IRQHandler(void)
 	HAL_TIM_IRQHandler(&htim16);
 
 	// TODO: Change LED pattern
+  PA1_state = LL_GPIO_IsInputPinSet(Button1_GPIO_Port, Button1_Pin);
+  PA2_state = LL_GPIO_IsInputPinSet(Button2_GPIO_Port, Button2_Pin);
+  PA3_state = LL_GPIO_IsInputPinSet(Button3_GPIO_Port, Button3_Pin);
 
+  LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin);
+  LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin);
+  LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin);
+  LL_GPIO_ResetOutputPin(LED3_GPIO_Port, LED3_Pin);
+  LL_GPIO_ResetOutputPin(LED4_GPIO_Port, LED4_Pin);
+  LL_GPIO_ResetOutputPin(LED5_GPIO_Port, LED5_Pin);
+  LL_GPIO_ResetOutputPin(LED6_GPIO_Port, LED6_Pin);
+  LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin);
 
+  if (PA1_state == 1) {
+    // Button 1 pressed
+    switch(led_position) {
+      case 0: LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin); break;
+      case 1: LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin); break;
+      case 2: LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin); break;
+      case 3: LL_GPIO_SetOutputPin(LED3_GPIO_Port, LED3_Pin); break;
+      case 4: LL_GPIO_SetOutputPin(LED4_GPIO_Port, LED4_Pin); break;
+      case 5: LL_GPIO_SetOutputPin(LED5_GPIO_Port, LED5_Pin); break;
+      case 6: LL_GPIO_SetOutputPin(LED6_GPIO_Port, LED6_Pin); break;
+      case 7: LL_GPIO_SetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
+    }
+    
+    // Update position for next time
+    led_position += led_direction;
+    
+    // Check for bouncing at the ends
+    if (led_position >= 7) {
+      led_position = 7;
+      led_direction = -1;  // Change direction to move left
+    } else if (led_position <= 0) {
+      led_position = 0;
+      led_direction = 1;   // Change direction to move right
+    }
 
+  } else if (PA2_state == 1) {
+    // Button 2 pressed
+  } else if (PA3_state == 1) {
+    // Button 3 pressed
+  }
 }
 
 
