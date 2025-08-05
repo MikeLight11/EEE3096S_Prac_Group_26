@@ -129,7 +129,7 @@ int main(void)
         PA1_state = 1;
         PA2_state = 0;
         PA3_state = 0;
-    } else if (PA2_state == 0 && !LL_GPIO_IsInputPinSet(Button2_GPIO_Port, Button2_Pin)) {
+    } else if (PA2_state == 0 && !LL_GPIO_IsInputPinSet(Button2_GPIO_Port, Button2_Pin)) { 
         PA1_state = 0;
         PA2_state = 1;
         PA3_state = 0;
@@ -143,14 +143,12 @@ int main(void)
       // Button 0 just pressed (edge detection)
         
         if (delay_mode == 0) {
-            htim16.Init.Period = 1000 - 1;
+            htim16.Instance->ARR = 1000 - 1;
             delay_mode = 1;
         } else {
-            htim16.Init.Period = 500 - 1;
+            htim16.Instance->ARR = 500 - 1;
             delay_mode = 0;
         }
-
-        HAL_TIM_Base_Init(&htim16);
     }
     
     PA0_state = LL_GPIO_IsInputPinSet(Button0_GPIO_Port, Button0_Pin);
@@ -445,7 +443,7 @@ void TIM16_IRQHandler(void)
     GPIOB -> ODR = random_int;
 
     random_on_delay = rand() % 1401 + 100; // Random delay between 100ms and 1500ms
-    delay(random_on_delay*100);
+    delay(random_on_delay*300);
 
     while (random_int != 0) {
       int index = rand() % 8;
@@ -467,7 +465,7 @@ void TIM16_IRQHandler(void)
       random_int &= ~(1 << index);
 
       random_off_delay = rand() % 101; // Random delay between 0ms and 100ms
-      delay(random_off_delay*1000);
+      delay(random_off_delay*300);
     }
   }
 }
