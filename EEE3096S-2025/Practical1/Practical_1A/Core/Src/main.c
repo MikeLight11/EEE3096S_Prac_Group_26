@@ -55,8 +55,8 @@ int PA3_state = 0;
 
 int delay_mode = 0; 
 
-int led_position = 0; 
-int led_direction = 1;
+int led_pos = 0; 
+int led_dir = 1;
 
 int random_int = 0;
 int random_on_delay = 0;
@@ -111,6 +111,11 @@ int main(void)
 
   init_LCD(); // Initialize LCD display
 
+  lcd_command(CLEAR);
+  lcd_putstring("Practical 1A");
+  lcd_command(LINE_TWO);
+  lcd_putstring("Group 26");
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -125,6 +130,7 @@ int main(void)
     // TODO: Check pushbuttons to change timer delay
     PA0_state = LL_GPIO_IsInputPinSet(Button0_GPIO_Port, Button0_Pin);
 
+    // Check which button is pressed
     if (PA1_state == 0 && !LL_GPIO_IsInputPinSet(Button1_GPIO_Port, Button1_Pin)) {
         PA1_state = 1;
         PA2_state = 0;
@@ -142,11 +148,11 @@ int main(void)
     if (PA0_state == 0 && !LL_GPIO_IsInputPinSet(Button0_GPIO_Port, Button0_Pin)) {
       // Button 0 just pressed (edge detection)
         
-        if (delay_mode == 0) {
-            htim16.Instance->ARR = 1000 - 1;
+        if (delay_mode == 0) { // If currently in 500ms delay mode
+            htim16.Instance->ARR = 1000 - 1; // Set timer period to 1000ms
             delay_mode = 1;
-        } else {
-            htim16.Instance->ARR = 500 - 1;
+        } else { // If currently in 1000ms delay mode
+            htim16.Instance->ARR = 500 - 1; // Set timer period to 500ms
             delay_mode = 0;
         }
     }
@@ -357,63 +363,108 @@ static void MX_GPIO_Init(void)
 /* USER CODE END MX_GPIO_Init_2 */
 }
 
-/* USER CODE BEGIN 4 */
-void TIM16_IRQHandler(void)
-{
-  // Acknowledge interrupt
-	HAL_TIM_IRQHandler(&htim16);
+void pattern1(void) { 
+  // Button 1 pressed
+  lcd_command(CLEAR);
+  lcd_putstring("Mode 1:");
+  lcd_command(LINE_TWO);
+  lcd_putstring("back/forth");
 
-	// TODO: Change LED pattern
-  if (PA1_state == 1) {
-    lcd_command(CLEAR);
-    lcd_putstring("Button 1 pressed");
-
-    LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin);
-    LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin);
-    LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin);
-    LL_GPIO_ResetOutputPin(LED3_GPIO_Port, LED3_Pin);
-    LL_GPIO_ResetOutputPin(LED4_GPIO_Port, LED4_Pin);
-    LL_GPIO_ResetOutputPin(LED5_GPIO_Port, LED5_Pin);
-    LL_GPIO_ResetOutputPin(LED6_GPIO_Port, LED6_Pin);
-    LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin);
+  // Reset all LEDs to OFF
+  LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin);
+  LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin);
+  LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin);
+  LL_GPIO_ResetOutputPin(LED3_GPIO_Port, LED3_Pin);
+  LL_GPIO_ResetOutputPin(LED4_GPIO_Port, LED4_Pin);
+  LL_GPIO_ResetOutputPin(LED5_GPIO_Port, LED5_Pin);
+  LL_GPIO_ResetOutputPin(LED6_GPIO_Port, LED6_Pin);
+  LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin);
     
-    // Button 1 pressed
-    switch(led_position) {
-      case 0: LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin); break;
-      case 1: LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin); break;
-      case 2: LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin); break;
-      case 3: LL_GPIO_SetOutputPin(LED3_GPIO_Port, LED3_Pin); break;
-      case 4: LL_GPIO_SetOutputPin(LED4_GPIO_Port, LED4_Pin); break;
-      case 5: LL_GPIO_SetOutputPin(LED5_GPIO_Port, LED5_Pin); break;
-      case 6: LL_GPIO_SetOutputPin(LED6_GPIO_Port, LED6_Pin); break;
-      case 7: LL_GPIO_SetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
+  // Set the current LED based on led_pos
+  switch(led_pos) {
+    case 0: LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin); break;
+    case 1: LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin); break;
+    case 2: LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin); break;
+    case 3: LL_GPIO_SetOutputPin(LED3_GPIO_Port, LED3_Pin); break;
+    case 4: LL_GPIO_SetOutputPin(LED4_GPIO_Port, LED4_Pin); break;
+    case 5: LL_GPIO_SetOutputPin(LED5_GPIO_Port, LED5_Pin); break;
+    case 6: LL_GPIO_SetOutputPin(LED6_GPIO_Port, LED6_Pin); break;
+    case 7: LL_GPIO_SetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
+  }
+    
+  led_pos += led_dir; // Move to the next LED
+
+  if (led_pos >= 7) { // If at the end, reverse direction
+    led_pos = 7;
+    led_dir = -1; // right to left
+  } else if (led_pos <= 0) {
+    led_pos = 0;
+    led_dir = 1; // left to right
+  }
+}
+
+void pattern2(void) {
+  // Button 2 pressed
+  lcd_command(CLEAR);
+  lcd_putstring("Mode 2: inverse");
+  lcd_command(LINE_TWO);
+  lcd_putstring("back/forth");
+
+  // Reset all LEDs to ON
+  LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
+  LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin);
+  LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin);
+  LL_GPIO_SetOutputPin(LED3_GPIO_Port, LED3_Pin);
+  LL_GPIO_SetOutputPin(LED4_GPIO_Port, LED4_Pin);
+  LL_GPIO_SetOutputPin(LED5_GPIO_Port, LED5_Pin);
+  LL_GPIO_SetOutputPin(LED6_GPIO_Port, LED6_Pin);
+  LL_GPIO_SetOutputPin(LED7_GPIO_Port, LED7_Pin);
+    
+  // Reset the current LED to OFF
+  switch(led_pos) {
+    case 0: LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin); break;
+    case 1: LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin); break;
+    case 2: LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin); break;
+    case 3: LL_GPIO_ResetOutputPin(LED3_GPIO_Port, LED3_Pin); break;
+    case 4: LL_GPIO_ResetOutputPin(LED4_GPIO_Port, LED4_Pin); break;
+    case 5: LL_GPIO_ResetOutputPin(LED5_GPIO_Port, LED5_Pin); break;
+    case 6: LL_GPIO_ResetOutputPin(LED6_GPIO_Port, LED6_Pin); break;
+    case 7: LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
+  }
+    
+  led_pos += led_dir; // Move to the next LED
+
+  if (led_pos >= 7) { // If at the end, reverse direction
+    led_pos = 7;
+    led_dir = -1;  // right to left
+  } else if (led_pos <= 0) {
+    led_pos = 0;
+    led_dir = 1;   // left to right
+  }
+}
+
+void pattern3(void) {
+  // Button 3 pressed
+  lcd_command(CLEAR);
+  lcd_putstring("Mode 3:"); 
+  lcd_command(LINE_TWO);
+  lcd_putstring("Sparkle"); 
+
+  random_int = rand() % 256;  // Generate a random number between 0 and 255
+
+  GPIOB -> ODR = random_int;  // Set GPIOB output data register to random value
+
+  random_on_delay = rand() % 1401 + 100; // Random delay between 100ms and 1500ms
+  delay(random_on_delay*200); // Delay for the random on time
+
+  while (random_int != 0) {  // While there are still LEDs ON
+    int index = rand() % 8; // Randomly select an index between 0 and 7
+    while (!(random_int & (1 << index))) { // Check if the LED at index is ON
+      index = rand() % 8; // If not, select another index
     }
-    
-    led_position += led_direction;
-    
-    if (led_position >= 7) {
-      led_position = 7;
-      led_direction = -1; // right to left
-    } else if (led_position <= 0) {
-      led_position = 0;
-      led_direction = 1; // left to right
-    }
 
-  } else if (PA2_state == 1) {
-    // Button 2 pressed
-    lcd_command(CLEAR);
-    lcd_putstring("Button 2 pressed");
-
-    LL_GPIO_SetOutputPin(LED0_GPIO_Port, LED0_Pin);
-    LL_GPIO_SetOutputPin(LED1_GPIO_Port, LED1_Pin);
-    LL_GPIO_SetOutputPin(LED2_GPIO_Port, LED2_Pin);
-    LL_GPIO_SetOutputPin(LED3_GPIO_Port, LED3_Pin);
-    LL_GPIO_SetOutputPin(LED4_GPIO_Port, LED4_Pin);
-    LL_GPIO_SetOutputPin(LED5_GPIO_Port, LED5_Pin);
-    LL_GPIO_SetOutputPin(LED6_GPIO_Port, LED6_Pin);
-    LL_GPIO_SetOutputPin(LED7_GPIO_Port, LED7_Pin);
-    
-    switch(led_position) {
+    // Turn off the LED at the selected index
+    switch(index) {
       case 0: LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin); break;
       case 1: LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin); break;
       case 2: LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin); break;
@@ -423,50 +474,45 @@ void TIM16_IRQHandler(void)
       case 6: LL_GPIO_ResetOutputPin(LED6_GPIO_Port, LED6_Pin); break;
       case 7: LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
     }
-    
-    led_position += led_direction;
-    
-    if (led_position >= 7) {
-      led_position = 7;
-      led_direction = -1;  // right to left
-    } else if (led_position <= 0) {
-      led_position = 0;
-      led_direction = 1;   // left to right
+
+    random_int &= ~(1 << index); // Clear the index bit for the turned off LED
+
+    random_off_delay = rand() % 101; // Random delay between 0ms and 100ms
+    delay(random_off_delay*300); // Delay for the random off time
+  }
+}
+
+/* USER CODE BEGIN 4 */
+void TIM16_IRQHandler(void)
+{
+  // Acknowledge interrupt
+	HAL_TIM_IRQHandler(&htim16);
+
+  // Check which button is pressed inside the interrupt handler
+  if (PA1_state == 0 && !LL_GPIO_IsInputPinSet(Button1_GPIO_Port, Button1_Pin)) {
+        PA1_state = 1;
+        PA2_state = 0;
+        PA3_state = 0;
+    } else if (PA2_state == 0 && !LL_GPIO_IsInputPinSet(Button2_GPIO_Port, Button2_Pin)) { 
+        PA1_state = 0;
+        PA2_state = 1;
+        PA3_state = 0;
+    } else if (PA3_state == 0 && !LL_GPIO_IsInputPinSet(Button3_GPIO_Port, Button3_Pin)) {
+        PA1_state = 0;
+        PA2_state = 0;
+        PA3_state = 1;
     }
+
+	// TODO: Change LED pattern
+  if (PA1_state == 1) {
+    pattern1(); // Button 1 pressed
+
+  } else if (PA2_state == 1) {
+    pattern2(); // Button 2 pressed
+
   } else if (PA3_state == 1) {
-    // Button 3 pressed
-    lcd_command(CLEAR);
-    lcd_putstring("Button 3 pressed");
+    pattern3(); // Button 3 pressed
 
-    random_int = rand() % 256;
-
-    GPIOB -> ODR = random_int;
-
-    random_on_delay = rand() % 1401 + 100; // Random delay between 100ms and 1500ms
-    delay(random_on_delay*300);
-
-    while (random_int != 0) {
-      int index = rand() % 8;
-      while (!(random_int & (1 << index))) {
-        index = rand() % 8;
-      }
-
-      switch(index) {
-        case 0: LL_GPIO_ResetOutputPin(LED0_GPIO_Port, LED0_Pin); break;
-        case 1: LL_GPIO_ResetOutputPin(LED1_GPIO_Port, LED1_Pin); break;
-        case 2: LL_GPIO_ResetOutputPin(LED2_GPIO_Port, LED2_Pin); break;
-        case 3: LL_GPIO_ResetOutputPin(LED3_GPIO_Port, LED3_Pin); break;
-        case 4: LL_GPIO_ResetOutputPin(LED4_GPIO_Port, LED4_Pin); break;
-        case 5: LL_GPIO_ResetOutputPin(LED5_GPIO_Port, LED5_Pin); break;
-        case 6: LL_GPIO_ResetOutputPin(LED6_GPIO_Port, LED6_Pin); break;
-        case 7: LL_GPIO_ResetOutputPin(LED7_GPIO_Port, LED7_Pin); break;
-      }
-
-      random_int &= ~(1 << index);
-
-      random_off_delay = rand() % 101; // Random delay between 0ms and 100ms
-      delay(random_off_delay*300);
-    }
   }
 }
 
