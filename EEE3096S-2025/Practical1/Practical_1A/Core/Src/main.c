@@ -26,6 +26,8 @@
 #include "stm32f0xx.h"
 #include "lcd_stm32f0.h"
 #include "lcd_stm32f0.c"
+#include <time.h>
+
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -115,6 +117,8 @@ int main(void)
   lcd_putstring("Practical 1A");
   lcd_command(LINE_TWO);
   lcd_putstring("Group 26");
+
+  srand(time(NULL));
 
   /* USER CODE END 2 */
 
