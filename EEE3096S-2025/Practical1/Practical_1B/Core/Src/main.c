@@ -212,26 +212,26 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 //TODO: Mandelbrot using variable type integers and fixed point arithmetic
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
-    //uint64_t mandelbrot_sum = 0;
-    //TODO: Complete the function implementation
-    const int three_four_const = 350000000;  //scale factor of 10^6
-    const int two_const = 200000000;
-    const int two_five_const = 250000000;
-    const int one_const = 100000000;
-    const int four_const = 400000000;
+    const int SCALE = 1000000;
+    const int THREE_FIVE = 3500000; // 3.5 * SCALE
+    const int TWO = 2000000;        // 2.0 * SCALE
+    const int TWO_FIVE = 2500000;   // 2.5 * SCALE
+    const int ONE = 1000000;        // 1.0 * SCALE
+    const int FOUR = 4000000;       // 4.0 * SCALE
 
     checksum = 0;
-    for (int y = 0; y <= height-1; y++) {
-        for (int x = 0; x <= width-1; x++) {
-            int x0 = ((x/width)*three_four_const) - two_five_const;
-            int y0 = ((y/height)*two_const) - one_const;
-            int iteration = 0;
+    for (int y = 0; y < height; y++) {
+        for (int x = 0; x < width; x++) {
+            int x0 = ((int64_t)x * THREE_FIVE) / width - TWO_FIVE;
+            int y0 = ((int64_t)y * TWO) / height - ONE;
             int xi = 0;
             int yi = 0;
-            while ((((xi*xi + yi*yi)/1000000) <= (four_const)) && (iteration < max_iterations)) {
-                int temp = (xi*xi - yi*yi)/1000000;
-                yi = ((2*xi*yi)/1000000)+y0;
-                xi = temp+x0;
+            int iteration = 0;
+            while (((((int64_t)xi * xi + (int64_t)yi * yi) / SCALE) <= FOUR) && (iteration < max_iterations)) {
+                int xi_temp = ((int64_t)xi * xi - (int64_t)yi * yi) / SCALE + x0;
+                int yi_temp = ((int64_t)2 * xi * yi) / SCALE + y0;
+                xi = xi_temp;
+                yi = yi_temp;
                 iteration++;
             }
             checksum += iteration;
