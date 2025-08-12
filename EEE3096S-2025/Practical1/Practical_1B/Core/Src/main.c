@@ -230,15 +230,15 @@ uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
     //uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
     checksum = 0;
-      for (int y = 0; y <= height - 1; y++) {
-    	  for (int x=0; x <= width - 1; x++) {
-    		  int x0 = (x)/(width)*3.5 - 2.5;
-    		  int y0 = (y)/(height)*2.0 - 1.0;
-    		  int xi = 0;
-    		  int yi = 0;
-    		  int iteration = 0;
+      for (double y = 0; y <= height - 1; y++) {
+    	  for (double x=0; x <= width - 1; x++) {
+    		  double x0 = (x)/(width)*3.5 - 2.5;
+    		  double y0 = (y)/(height)*2.0 - 1.0;
+    		  double xi = 0;
+    		  double yi = 0;
+    		  double iteration = 0;
     		  while ((iteration < max_iterations) & ((xi^2)+(yi^2) <= 4)) {
-    			  int temp = (xi^2) - (yi^2);
+    			  double temp = (xi^2) - (yi^2);
     			  yi = 2*(xi)*(yi) + y0;
     			  xi = temp + x0;
     			  iteration += 1;
