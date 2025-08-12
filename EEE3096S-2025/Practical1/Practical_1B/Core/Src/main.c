@@ -43,14 +43,14 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-//TODO: Define and initialise the global varibales required
+//TODO: Define and initialize the global variables required
 
-uint32_t start_time;
-uint32_t end_time;
-uint32_t execution_time;
-uint64_t checksum;
-int init_width;
-int init_height;
+uint32_t start_time;       // Clock time at start of operation
+uint32_t end_time;         // Clock time at end of operation
+uint32_t execution_time;   // Difference between start and end time
+uint64_t checksum;         // Sum returned by Mandelbrot function
+int init_width = 128;            // Initial height of 2D plane
+int init_height = 128;           // Initial width of 2D plane
 
 
 /* USER CODE END PV */
@@ -61,7 +61,6 @@ static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations);
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations);
-
 
 /* USER CODE END PFP */
 
@@ -130,7 +129,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
@@ -213,7 +211,7 @@ uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int 
 		  int xi = 0;
 		  int yi = 0;
 		  int iteration = 0;
-		  while ((iteration < max_iterations) & ((xi^2)+(yi^2) <= 4)) {
+		  while ((iteration < max_iterations) && ((xi^2)+(yi^2) <= 4)) {
 			  int temp = (xi^2) - (yi^2);
 			  yi = 2*(xi)*(yi) + y0;
 			  xi = temp + x0;
@@ -230,15 +228,18 @@ uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
     //uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
     checksum = 0;
-      for (double y = 0; y <= height - 1; y++) {
-    	  for (double x=0; x <= width - 1; x++) {
+    //max_iterations = (double)max_iterations;
+      for (int y = 0; y <= height - 1; y++) {
+    	  for (int x=0; x <= width - 1; x++) {
+    		  y = (double)y;
+    		  x = (double)x;
     		  double x0 = (x)/(width)*3.5 - 2.5;
     		  double y0 = (y)/(height)*2.0 - 1.0;
     		  double xi = 0;
     		  double yi = 0;
-    		  double iteration = 0;
-    		  while ((iteration < max_iterations) & ((xi^2)+(yi^2) <= 4)) {
-    			  double temp = (xi^2) - (yi^2);
+    		  int iteration = 0;
+    		  while ((iteration < max_iterations) && ((xi*xi)+(yi*yi) <= 4)) {
+    			  double temp = (xi*xi) - (yi*yi);
     			  yi = 2*(xi)*(yi) + y0;
     			  xi = temp + x0;
     			  iteration += 1;
