@@ -51,6 +51,9 @@ uint32_t execution_time;   // Difference between start and end time
 uint64_t checksum;         // Sum returned by Mandelbrot function
 int init_width = 128;            // Initial height of 2D plane
 int init_height = 128;           // Initial width of 2D plane
+int size_array[] = {128, 160, 192, 224, 256};
+uint64_t checksum_array[5] = {0}; // Array to hold checksums for different sizes
+uint32_t execution_time_array[5] = {0}; // Array to hold execution times for different sizes
 
 
 /* USER CODE END PV */
@@ -102,16 +105,24 @@ int main(void)
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
   //TODO: Record the start time
-  start_time = HAL_GetTick();
+  //start_time = HAL_GetTick();
   
   //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
   
 
   //TODO: Record the end time
-  end_time = HAL_GetTick();
+  //end_time = HAL_GetTick();
 
   //TODO: Calculate the execution time
-  execution_time = end_time - start_time;
+  //execution_time = end_time - start_time;
+
+  for (int i = 0; i < 5; i++) {
+        start_time = HAL_GetTick();
+        checksum_array[i] = calculate_mandelbrot_fixed_point_arithmetic(size_array[i], size_array[i], MAX_ITER);
+        //checksum_array[i] = calculate_mandelbrot_double(size_array[i], size_array[i], MAX_ITER);
+        end_time = HAL_GetTick();
+        execution_time_array[i] = end_time - start_time;
+    }
 
   //TODO: Turn on LED 1 to signify the end of the operation
   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
@@ -200,55 +211,57 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 //TODO: Mandelbrot using variable type integers and fixed point arithmetic
-uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations) {
-  //uint64_t mandelbrot_sum = 0;
+uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
+    //uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
-  checksum = 0;
-  for (int y = 0; y <= height - 1; y++) {
-	  for (int x=0; x <= width - 1; x++) {
-		  int x0 = (x)/(width)*3.5 - 2.5;
-		  int y0 = (y)/(height)*2.0 - 1.0;
-		  int xi = 0;
-		  int yi = 0;
-		  int iteration = 0;
-		  while ((iteration < max_iterations) && ((xi^2)+(yi^2) <= 4)) {
-			  int temp = (xi^2) - (yi^2);
-			  yi = 2*(xi)*(yi) + y0;
-			  xi = temp + x0;
-			  iteration += 1;
-		  }
-		  checksum += iteration;
-	  }
-  }
-  return checksum;
+    const int three_four_const = 350000000;  //scale factor of 10^6
+    const int two_const = 200000000;
+    const int two_five_const = 250000000;
+    const int one_const = 100000000;
+    const int four_const = 400000000;
+
+    checksum = 0;
+    for (int y = 0; y <= height-1; y++) {
+        for (int x = 0; x <= width-1; x++) {
+            int x0 = ((x/width)*three_four_const) - two_five_const;
+            int y0 = ((y/height)*two_const) - one_const;
+            int iteration = 0;
+            int xi = 0;
+            int yi = 0;
+            while ((((xi*xi + yi*yi)/1000000) <= (four_const)) && (iteration < max_iterations)) {
+                int temp = (xi*xi - yi*yi)/1000000;
+                yi = ((2*xi*yi)/1000000)+y0;
+                xi = temp+x0;
+                iteration++;
+            }
+            checksum += iteration;
+        }
+    }
+    return checksum;
 }
 
-//TODO: Mandelbrot using variable type double
+//TODO: Mandelbroat using variable type double
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
     //uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
     checksum = 0;
-    //max_iterations = (double)max_iterations;
-      for (int y = 0; y <= height - 1; y++) {
-    	  for (int x=0; x <= width - 1; x++) {
-    		  y = (double)y;
-    		  x = (double)x;
-    		  double x0 = (x)/(width)*3.5 - 2.5;
-    		  double y0 = (y)/(height)*2.0 - 1.0;
-    		  double xi = 0;
-    		  double yi = 0;
-    		  int iteration = 0;
-    		  while ((iteration < max_iterations) && ((xi*xi)+(yi*yi) <= 4)) {
-    			  double temp = (xi*xi) - (yi*yi);
-    			  yi = 2*(xi)*(yi) + y0;
-    			  xi = temp + x0;
-    			  iteration += 1;
-    		  }
-    		  checksum += iteration;
-    	  }
-      }
-
-      return checksum;
+    for (int y = 0; y <= height-1; y++) {
+        for (int x = 0; x <= width-1; x++) {
+            double x0 = ((double)x/(double)width)*(3.5)-2.5;
+            double y0 = ((double)y/(double)height)*(2.0)-1.0;
+            int iteration = 0;
+            double xi = 0;
+            double yi = 0;
+            while ((xi*xi + yi*yi) <= (4) && iteration < max_iterations) {
+                double temp = (xi*xi - yi*yi);
+                yi = (2*xi*yi)+y0;
+                xi = temp+x0;
+                iteration++;
+            }
+            checksum += iteration;
+        }
+    }
+    return checksum;
 }
 
 /* USER CODE END 4 */
