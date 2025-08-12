@@ -44,13 +44,14 @@
 
 /* USER CODE BEGIN PV */
 //TODO: Define and initialise the global varibales required
-/*
-  start_time
-  end_time
-  execution_time 
-  checksum: should be uint64_t
-  initial width and height maybe or you might opt for an array??
-*/
+
+uint32_t start_time;
+uint32_t end_time;
+uint32_t execution_time;
+uint64_t checksum;
+int init_width;
+int init_height;
+
 
 /* USER CODE END PV */
 
@@ -99,28 +100,28 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   //TODO: Turn on LED 0 to signify the start of the operation
-  
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
 
   //TODO: Record the start time
-  
+  start_time = HAL_GetTick();
   
   //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
   
 
   //TODO: Record the end time
-  
+  end_time = HAL_GetTick();
 
   //TODO: Calculate the execution time
-  
+  execution_time = end_time - start_time;
 
   //TODO: Turn on LED 1 to signify the end of the operation
-  
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
 
   //TODO: Hold the LEDs on for a 1s delay
-  
+  HAL_Delay(1000);
 
   //TODO: Turn off the LEDs
-  
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
 
   /* USER CODE END 2 */
 
@@ -201,11 +202,19 @@ static void MX_GPIO_Init(void)
 
 /* USER CODE BEGIN 4 */
 //TODO: Mandelbroat using variable type integers and fixed point arithmetic
-uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
-  uint64_t mandelbrot_sum = 0;
+uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations) {
+  //uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
-    
-    return mandelbrot_sum;
+  checksum = 0;
+  for (int y = 0; y <= height - 1; y++) {
+
+  }
+
+  for (int x=0; x <= width - 1; x++) {
+
+  }
+
+  return checksum;
 
 }
 
