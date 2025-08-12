@@ -201,29 +201,53 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-//TODO: Mandelbroat using variable type integers and fixed point arithmetic
+//TODO: Mandelbrot using variable type integers and fixed point arithmetic
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations) {
   //uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
   checksum = 0;
   for (int y = 0; y <= height - 1; y++) {
-
+	  for (int x=0; x <= width - 1; x++) {
+		  int x0 = (x)/(width)*3.5 - 2.5;
+		  int y0 = (y)/(height)*2.0 - 1.0;
+		  int xi = 0;
+		  int yi = 0;
+		  int iteration = 0;
+		  while ((iteration < max_iterations) & ((xi^2)+(yi^2) <= 4)) {
+			  int temp = (xi^2) - (yi^2);
+			  yi = 2*(xi)*(yi) + y0;
+			  xi = temp + x0;
+			  iteration += 1;
+		  }
+		  checksum += iteration;
+	  }
   }
-
-  for (int x=0; x <= width - 1; x++) {
-
-  }
-
   return checksum;
-
 }
 
-//TODO: Mandelbroat using variable type double
+//TODO: Mandelbrot using variable type double
 uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
-    uint64_t mandelbrot_sum = 0;
+    //uint64_t mandelbrot_sum = 0;
     //TODO: Complete the function implementation
-    
-    return mandelbrot_sum;
+    checksum = 0;
+      for (int y = 0; y <= height - 1; y++) {
+    	  for (int x=0; x <= width - 1; x++) {
+    		  int x0 = (x)/(width)*3.5 - 2.5;
+    		  int y0 = (y)/(height)*2.0 - 1.0;
+    		  int xi = 0;
+    		  int yi = 0;
+    		  int iteration = 0;
+    		  while ((iteration < max_iterations) & ((xi^2)+(yi^2) <= 4)) {
+    			  int temp = (xi^2) - (yi^2);
+    			  yi = 2*(xi)*(yi) + y0;
+    			  xi = temp + x0;
+    			  iteration += 1;
+    		  }
+    		  checksum += iteration;
+    	  }
+      }
+
+      return checksum;
 }
 
 /* USER CODE END 4 */
