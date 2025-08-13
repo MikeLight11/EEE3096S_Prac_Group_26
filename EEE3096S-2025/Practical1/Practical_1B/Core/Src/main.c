@@ -102,13 +102,14 @@ int main(void)
   MX_GPIO_Init();
   /* USER CODE BEGIN 2 */
   //TODO: Turn on LED 0 to signify the start of the operation
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
+
 
   //TODO: Record the start time
   //start_time = HAL_GetTick();
   
   //TODO: Call the Mandelbrot Function and store the output in the checksum variable defined initially
-  
+  //checksum = calculate_mandelbrot_fixed_point_arithmetic(init_width, init_height, MAX_ITER);
+  //checksum = calculate_mandelbrot_double(init_width, init_height, MAX_ITER);
 
   //TODO: Record the end time
   //end_time = HAL_GetTick();
@@ -117,21 +118,25 @@ int main(void)
   //execution_time = end_time - start_time;
 
   for (int i = 0; i < 5; i++) {
+	    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET);
         start_time = HAL_GetTick();
         checksum_array[i] = calculate_mandelbrot_fixed_point_arithmetic(size_array[i], size_array[i], MAX_ITER);
         //checksum_array[i] = calculate_mandelbrot_double(size_array[i], size_array[i], MAX_ITER);
         end_time = HAL_GetTick();
         execution_time_array[i] = end_time - start_time;
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+        HAL_Delay(1000);
+        HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
     }
 
   //TODO: Turn on LED 1 to signify the end of the operation
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET);
+
 
   //TODO: Hold the LEDs on for a 1s delay
-  HAL_Delay(1000);
+
 
   //TODO: Turn off the LEDs
-  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0|GPIO_PIN_1, GPIO_PIN_RESET);
+
 
   /* USER CODE END 2 */
 
@@ -263,7 +268,6 @@ uint64_t calculate_mandelbrot_double(int width, int height, int max_iterations){
     }
     return checksum;
 }
-
 /* USER CODE END 4 */
 
 /**

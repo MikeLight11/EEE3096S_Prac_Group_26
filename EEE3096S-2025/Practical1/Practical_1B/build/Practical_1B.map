@@ -1408,27 +1408,27 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
 LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libm.a
 LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a
 
-.debug_info     0x00000000     0x35bc
- .debug_info    0x00000000      0xca2 build/main.o
- .debug_info    0x00000ca2      0x100 build/stm32f0xx_it.o
- .debug_info    0x00000da2      0x1d9 build/stm32f0xx_hal_msp.o
- .debug_info    0x00000f7b      0xb63 build/stm32f0xx_hal_rcc.o
- .debug_info    0x00001ade      0x833 build/stm32f0xx_hal.o
- .debug_info    0x00002311      0x6d2 build/stm32f0xx_hal_gpio.o
- .debug_info    0x000029e3      0x8ed build/stm32f0xx_hal_cortex.o
- .debug_info    0x000032d0      0x2bc build/system_stm32f0xx.o
- .debug_info    0x0000358c       0x30 build/startup_stm32f051x8.o
+.debug_info     0x00000000     0x35bd
+ .debug_info    0x00000000      0xca3 build/main.o
+ .debug_info    0x00000ca3      0x100 build/stm32f0xx_it.o
+ .debug_info    0x00000da3      0x1d9 build/stm32f0xx_hal_msp.o
+ .debug_info    0x00000f7c      0xb63 build/stm32f0xx_hal_rcc.o
+ .debug_info    0x00001adf      0x833 build/stm32f0xx_hal.o
+ .debug_info    0x00002312      0x6d2 build/stm32f0xx_hal_gpio.o
+ .debug_info    0x000029e4      0x8ed build/stm32f0xx_hal_cortex.o
+ .debug_info    0x000032d1      0x2bc build/system_stm32f0xx.o
+ .debug_info    0x0000358d       0x30 build/startup_stm32f051x8.o
 
-.debug_abbrev   0x00000000      0xf94
- .debug_abbrev  0x00000000      0x2d0 build/main.o
- .debug_abbrev  0x000002d0       0x80 build/stm32f0xx_it.o
- .debug_abbrev  0x00000350       0xc1 build/stm32f0xx_hal_msp.o
- .debug_abbrev  0x00000411      0x2b4 build/stm32f0xx_hal_rcc.o
- .debug_abbrev  0x000006c5      0x268 build/stm32f0xx_hal.o
- .debug_abbrev  0x0000092d      0x222 build/stm32f0xx_hal_gpio.o
- .debug_abbrev  0x00000b4f      0x2f4 build/stm32f0xx_hal_cortex.o
- .debug_abbrev  0x00000e43      0x134 build/system_stm32f0xx.o
- .debug_abbrev  0x00000f77       0x1d build/startup_stm32f051x8.o
+.debug_abbrev   0x00000000      0xfa8
+ .debug_abbrev  0x00000000      0x2e4 build/main.o
+ .debug_abbrev  0x000002e4       0x80 build/stm32f0xx_it.o
+ .debug_abbrev  0x00000364       0xc1 build/stm32f0xx_hal_msp.o
+ .debug_abbrev  0x00000425      0x2b4 build/stm32f0xx_hal_rcc.o
+ .debug_abbrev  0x000006d9      0x268 build/stm32f0xx_hal.o
+ .debug_abbrev  0x00000941      0x222 build/stm32f0xx_hal_gpio.o
+ .debug_abbrev  0x00000b63      0x2f4 build/stm32f0xx_hal_cortex.o
+ .debug_abbrev  0x00000e57      0x134 build/system_stm32f0xx.o
+ .debug_abbrev  0x00000f8b       0x1d build/startup_stm32f051x8.o
 
 .debug_loc      0x00000000     0x18d9
  .debug_loc     0x00000000      0x558 build/main.o
@@ -1471,16 +1471,16 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_ranges  0x00000308       0x18 build/system_stm32f0xx.o
  .debug_ranges  0x00000320       0x20 build/startup_stm32f051x8.o
 
-.debug_line     0x00000000     0x2bfb
- .debug_line    0x00000000      0x654 build/main.o
- .debug_line    0x00000654       0xdd build/stm32f0xx_it.o
- .debug_line    0x00000731      0x208 build/stm32f0xx_hal_msp.o
- .debug_line    0x00000939      0xcc7 build/stm32f0xx_hal_rcc.o
- .debug_line    0x00001600      0x5bb build/stm32f0xx_hal.o
- .debug_line    0x00001bbb      0x742 build/stm32f0xx_hal_gpio.o
- .debug_line    0x000022fd      0x5cc build/stm32f0xx_hal_cortex.o
- .debug_line    0x000028c9      0x2be build/system_stm32f0xx.o
- .debug_line    0x00002b87       0x74 build/startup_stm32f051x8.o
+.debug_line     0x00000000     0x2bfe
+ .debug_line    0x00000000      0x657 build/main.o
+ .debug_line    0x00000657       0xdd build/stm32f0xx_it.o
+ .debug_line    0x00000734      0x208 build/stm32f0xx_hal_msp.o
+ .debug_line    0x0000093c      0xcc7 build/stm32f0xx_hal_rcc.o
+ .debug_line    0x00001603      0x5bb build/stm32f0xx_hal.o
+ .debug_line    0x00001bbe      0x742 build/stm32f0xx_hal_gpio.o
+ .debug_line    0x00002300      0x5cc build/stm32f0xx_hal_cortex.o
+ .debug_line    0x000028cc      0x2be build/system_stm32f0xx.o
+ .debug_line    0x00002b8a       0x74 build/startup_stm32f051x8.o
 
 .debug_str      0x00000000     0x1164
  .debug_str     0x00000000     0x1164 build/main.o
@@ -1505,19 +1505,19 @@ LOAD C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .comment       0x00000043       0x44 build/stm32f0xx_hal_cortex.o
  .comment       0x00000043       0x44 build/system_stm32f0xx.o
 
-.debug_frame    0x00000000      0x6fc
- .debug_frame   0x00000000       0xc8 build/main.o
- .debug_frame   0x000000c8       0x68 build/stm32f0xx_it.o
- .debug_frame   0x00000130       0x24 build/stm32f0xx_hal_msp.o
- .debug_frame   0x00000154      0x134 build/stm32f0xx_hal_rcc.o
- .debug_frame   0x00000288      0x1ac build/stm32f0xx_hal.o
- .debug_frame   0x00000434       0xc0 build/stm32f0xx_hal_gpio.o
- .debug_frame   0x000004f4      0x144 build/stm32f0xx_hal_cortex.o
- .debug_frame   0x00000638       0x38 build/system_stm32f0xx.o
- .debug_frame   0x00000670       0x20 C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-memset.o)
- .debug_frame   0x00000690       0x2c C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
- .debug_frame   0x000006bc       0x20 C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
- .debug_frame   0x000006dc       0x20 C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
+.debug_frame    0x00000000      0x700
+ .debug_frame   0x00000000       0xcc build/main.o
+ .debug_frame   0x000000cc       0x68 build/stm32f0xx_it.o
+ .debug_frame   0x00000134       0x24 build/stm32f0xx_hal_msp.o
+ .debug_frame   0x00000158      0x134 build/stm32f0xx_hal_rcc.o
+ .debug_frame   0x0000028c      0x1ac build/stm32f0xx_hal.o
+ .debug_frame   0x00000438       0xc0 build/stm32f0xx_hal_gpio.o
+ .debug_frame   0x000004f8      0x144 build/stm32f0xx_hal_cortex.o
+ .debug_frame   0x0000063c       0x38 build/system_stm32f0xx.o
+ .debug_frame   0x00000674       0x20 C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-memset.o)
+ .debug_frame   0x00000694       0x2c C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v6-m/nofp\libc_nano.a(libc_a-init.o)
+ .debug_frame   0x000006c0       0x20 C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_udivsi3.o)
+ .debug_frame   0x000006e0       0x20 C:/ST/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v6-m/nofp\libgcc.a(_divsi3.o)
 
 Cross Reference Table
 
