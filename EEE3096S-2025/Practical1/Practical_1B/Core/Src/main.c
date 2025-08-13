@@ -212,24 +212,24 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 //TODO: Mandelbrot using variable type integers and fixed point arithmetic
 uint64_t calculate_mandelbrot_fixed_point_arithmetic(int width, int height, int max_iterations){
-    const int SCALE = 1000000;
-    const int THREE_FIVE = 3500000; // 3.5 * SCALE
-    const int TWO = 2000000;        // 2.0 * SCALE
-    const int TWO_FIVE = 2500000;   // 2.5 * SCALE
-    const int ONE = 1000000;        // 1.0 * SCALE
-    const int FOUR = 4000000;       // 4.0 * SCALE
+    const int16_t SCALE = 1000;
+    const int16_t THREE_FIVE = 3500;
+    const int16_t TWO = 2000;
+    const int16_t TWO_FIVE = 2500;
+    const int16_t ONE = 1000;
+    const int16_t FOUR = 4000;
 
     checksum = 0;
-    for (int y = 0; y < height; y++) {
-        for (int x = 0; x < width; x++) {
-            int x0 = ((int64_t)x * THREE_FIVE) / width - TWO_FIVE;
-            int y0 = ((int64_t)y * TWO) / height - ONE;
-            int xi = 0;
-            int yi = 0;
-            int iteration = 0;
-            while (((((int64_t)xi * xi + (int64_t)yi * yi) / SCALE) <= FOUR) && (iteration < max_iterations)) {
-                int xi_temp = ((int64_t)xi * xi - (int64_t)yi * yi) / SCALE + x0;
-                int yi_temp = ((int64_t)2 * xi * yi) / SCALE + y0;
+    for (int16_t y = 0; y < height; y++) {
+        for (int16_t x = 0; x < width; x++) {
+        	int16_t x0 = (x * THREE_FIVE) / width - TWO_FIVE;
+        	int16_t y0 = (y * TWO) / height - ONE;
+        	int16_t xi = 0;
+        	int16_t yi = 0;
+        	int16_t iteration = 0;
+            while (((((int16_t)xi * xi + (int16_t)yi * yi) / SCALE) <= FOUR) && (iteration < max_iterations)) {
+            	int16_t xi_temp = (xi * xi - yi * yi) / SCALE + x0;
+            	int16_t yi_temp = ((int16_t)2 * xi * yi) / SCALE + y0;
                 xi = xi_temp;
                 yi = yi_temp;
                 iteration++;
