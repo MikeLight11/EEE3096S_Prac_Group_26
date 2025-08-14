@@ -6,7 +6,7 @@ A performance benchmarking project for the STM32F0 microcontroller using Mandelb
 
 This project implements and benchmarks two different calculation methods for generating the Mandelbrot set on the STM32F0 microcontroller:
 - **Fixed-point arithmetic** - Optimized for speed
-- **Double-precision floating-point** - Optimized for accuracy
+- **Double** - Optimized for accuracy
 
 The Mandelbrot set is a collection of complex numbers where the iteration of the formula `f(z) = z² + c` (starting at z = 0) remains bounded and does not diverge to infinity. This mathematical computation provides an excellent benchmark for testing:
 - Computational capabilities
@@ -45,27 +45,4 @@ LEDs are used to provide real-time visual indicators for:
 - Higher mathematical accuracy
 - Longer computation times
 
-## Implementation Details
-
-The project consists of C code implementations for both calculation methods, specifically optimized for the STM32F0 microcontroller architecture. Results are validated against the provided reference implementation (`Mandelbrot.py`) to ensure computational accuracy.
-
-## Getting Started
-
-### Prerequisites
-- STM32F0 development board
-- STM32CubeIDE or compatible development environment
-- HAL library for STM32F0
-- Reference Python script (`Mandelbrot.py`) for validation
-
-### Hardware Requirements
-- STM32F0 microcontroller
-- LEDs for visual feedback
-- Debug interface for timing measurements
-
-## Performance Analysis
-
 This benchmark demonstrates the fundamental trade-off between computational speed and numerical precision in embedded systems, providing insights into optimal arithmetic selection for resource-constrained microcontroller applications.
-
----
-
-*This project serves as a practical exploration of computational performance characteristics and arithmetic precision trade-offs in embedded microcontroller systems.*
